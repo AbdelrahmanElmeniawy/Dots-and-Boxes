@@ -4,74 +4,90 @@
 #include <colors.h>
 #include <windows.h>
 
+void game_function(int n, int mode, int size, char game[size][size],int totallines, int movesplayed[totallines][7], int noofmoves, int player,int score1,int score2, int moves1, int moves2);
 int checkbox(int row,int col,int size,char game[size][size],char compgame[size][size],int player,int totallines, int noofmoves, int movesplayed[totallines][7], int ai);
 void printgame(int sizea, char game[sizea][sizea], int score1, int score2, int totallines, int noofmoves, int noOfMoves1, int noOfMoves2, int time0);
 
-
-
 int main()
 {
-    int n ;
     //////////////////////////////////////////////////////////////////// interfacee
-    int i,mode;
+    int menu;
     setTextColor(stdout,TC_GREEN);
     printf("\n \t \t\t\t\twelcome to our project:\n\n \t \t\t\t\tDOTS and BOXES:\n\n");
     setTextColor(stdout,TC_CYAN);
     printf("\t new game(enter:1):\n\n\t load(enter:2):\n\n\t top ten(enter:3):\n\n\t exit(enter:4);\n\n\t enter the choose:");
     setTextColor(stdout,TC_LIGHTGRAY);
-    scanf("%d",&i);
+    scanf("%d",&menu);
     system("cls");
-    if(i==1){
-    setTextColor(stdout,TC_CYAN);
-    printf("\n\nenter the size of the boxes:");
-    scanf("%d",&n);
-    setTextColor(stdout,TC_LIGHTGRAY);
-    //system("cls");
-    setTextColor(stdout,TC_BLUE);
-    printf("\n\tone player (enter:1):\n\n");
-    setTextColor(stdout,TC_RED);
-    printf("\ttwo player (enter:2):\n");
-    setTextColor(stdout,TC_LIGHTGRAY);
-    scanf("%d",&mode);
-    system("cls");
+    if(menu==1){
+        int n, mode;
+        setTextColor(stdout,TC_CYAN);
+        printf("\n\nenter the size of the boxes:");
+        scanf("%d",&n);
+        setTextColor(stdout,TC_LIGHTGRAY);
+        setTextColor(stdout,TC_BLUE);
+        printf("\n\tone player (enter:1):\n\n");
+        setTextColor(stdout,TC_RED);
+        printf("\ttwo player (enter:2):\n");
+        setTextColor(stdout,TC_LIGHTGRAY);
+        scanf("%d",&mode);
+        system("cls");
+        int size = 2*n + 2;
+        char game[size][size];
+        for(int j=0; j < size; j++){
+            game[0][j] = j;
+            game[j][0] = j;
+            if(j%2 != 0) {
+                for(int i=1; i < size; i=i+2){
+                    game[i][j] = 254;
+                    game[i+1][j] =' ';
+                }
+            }
+             else if(j%2 == 0){
+                for(int i=1; i < size; i = i+2){
+                    game[i][j] =' ';
+                    game[i+1][j] =' ';
+                }
+            }
+        }
+        int totallines = 2*n*(n+1),noofmoves=0;
+        int movesplayed[totallines][7];//movesplayed[no of move][player played it,row,column]
+        for(int i=0;i<totallines;i++){
+            for(int j=0; j < 7; j++)
+                movesplayed[i][j]=0;
+        }
+        int player=1,score1=0,score2=0, moves1 = 0, moves2 = 0;
+        game_function(n, mode, size, game, totallines, movesplayed, noofmoves, player, score1, score2, moves1, moves2);
+    }
+    return 0;
+}
+
+void game_function(int n, int mode, int size, char game[size][size],int totallines, int movesplayed[totallines][7], int noofmoves, int player,int score1,int score2, int moves1, int moves2)
+{
     time_t savedtime;
     int t0 = time(&savedtime);
     //initializing the arrays of the play
-    int j, i, size = 2*n+2;
+    int j, i;
     char h = 205, v = 186, dot = 254;//205 186 254
     char compgame[size][size];
-    char game[size][size];
     for(j=0; j < size; j++){
-        compgame[0][j] = j;
-        game[0][j] = j;
-        compgame[j][0] = j;
-        game[j][0] = j;
-        if(j%2 != 0) {
-            for(i=1; i < size; i=i+2){
-                compgame[i][j] = dot;
-                game[i][j] = dot;
-                compgame[i+1][j] =v;
-                game[i+1][j] =' ';
+            compgame[0][j] = j;
+            compgame[j][0] = j;
+            if(j%2 != 0) {
+                for(i=1; i < size; i=i+2){
+                    compgame[i][j] = dot;
+                    compgame[i+1][j] =v;
+                }
             }
-        }
-         else if(j%2 == 0){
-            for(i=1; i < size; i = i+2){
-                compgame[i][j] = h;
-                compgame[i+1][j] =' ';
-                game[i][j] =' ';
-                game[i+1][j] =' ';
+             else if(j%2 == 0){
+                for(i=1; i < size; i = i+2){
+                    compgame[i][j] = h;
+                    compgame[i+1][j] =' ';
+                }
             }
-        }
         }
 
-    //array 0f moves and make it = 0
-    int totallines = 2*n*(n+1),noofmoves=0, noundo = 0;
-    int movesplayed[totallines][7];//movesplayed[no of move][player played it,row,column]
-    for(i=0;i<totallines;i++){
-        for(j=0; j < 7; j++)
-            movesplayed[i][j]=0;
-    }
-    int row,col,gameon=1,availablemove=1,player=1,score1=0,score2=0,check = 0, moves1 = 0, moves2 = 0, AI;
+    int row,col,gameon=1,availablemove=1,check = 0, AI, noundo = 0;
     printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0);
     while(gameon){
         if(player==1){
@@ -300,8 +316,6 @@ int main()
             }
         }
     }
-    }
-    return 0;
 }
 
 int checkbox(int row,int col,int size,char game[size][size],char compgame[size][size],int player,int totallines, int noofmoves, int movesplayed[totallines][7], int ai)
