@@ -1,7 +1,0 @@
-# depslib dependency file v1.0
-1576369065 source:c:\users\ecc\desktop\c\abdo\main.c
-	<stdio.h>
-	<stdlib.h>
-	<time.h>
-	<windows.h>
-

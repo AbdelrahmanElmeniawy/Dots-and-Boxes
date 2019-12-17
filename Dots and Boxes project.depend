@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1576517609 source:c:\users\ecc\desktop\c\dots and boxes\dots and boxes project\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<windows.h>
+
