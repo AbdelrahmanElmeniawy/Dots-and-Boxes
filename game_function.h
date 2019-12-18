@@ -3,7 +3,7 @@
 #include "AI_function.h"
 #include "Undo_function.h"
 
-void game_function(int n, int mode, int size, char game[size][size],int totallines, int movesplayed[totallines][7], int noofmoves, int player,int score1,int score2, int moves1, int moves2)
+void game_function(int n, int mode, int size, char game[size][size],int totallines, int movesplayed[totallines][7], int noofmoves, int player,int score1,int score2, int moves1, int moves2, int lenname1, char name1[lenname1], int lenname2, char name2[lenname2])
 {
     time_t savedtime;
     int t0 = time(&savedtime);
@@ -64,9 +64,39 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
                 printf("\nno moves to undo\n\n");
             else if(movesplayed[noofmoves-1][0] != 0)
             {
-                undo_function(mode,&noundo, &moves1, &moves2, &score1, &score1, &row,&col,size,game,compgame,&player,totallines, &noofmoves, movesplayed);
+                undo_function(mode,&noundo, &moves1, &moves2, &score1, &score2, &row,&col,size,game,compgame,&player,totallines, &noofmoves, movesplayed);
             }else
                 printf("\nno moves to undo\n\n");
+        }
+        else if (row == 2 && col == 2)
+        {
+            int savenum;
+            printf("Enter the file number( 1 or 2 or 3):");
+            scanf("%d", &savenum);
+            if (savenum == 1 || savenum == 2 || savenum == 3){
+                char fname[5];
+                sprintf(fname, "%d.txt", savenum);
+                FILE *save = fopen(fname, "w");
+                fwrite(&n, sizeof(int), 1, save);
+                fwrite(&mode, sizeof(int), 1, save);
+                fwrite(&noofmoves, sizeof(int), 1, save);
+                fwrite(&moves1, sizeof(int), 1, save);
+                fwrite(&moves2, sizeof(int), 1, save);
+                fwrite(&score1, sizeof(int), 1, save);
+                fwrite(&score2, sizeof(int), 1, save);
+                fwrite(&player, sizeof(int), 1, save);
+                fwrite(movesplayed, sizeof(int), totallines * 7, save);
+                fwrite(game, sizeof(char), size * size, save);
+                fwrite(&lenname1, sizeof(int), 1, save);
+                fwrite(name1, sizeof(char), lenname1, save);
+                if(mode == 2)
+                    fwrite(&lenname2, sizeof(int), 1, save);
+                    fwrite(name2, sizeof(char), lenname2, save);
+                fclose(save);
+                printf("saved to %d.txt\n", savenum);
+                printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0);
+            } else printf("is not existing file\n");
+            break;
         }
         else if((((col%2 == 0 && row%2 != 0) || (col%2 != 0 && row%2 == 0)) && col > 0 && col < size && row > 0 && row < size) || (row == 1 && col == 1)){
 

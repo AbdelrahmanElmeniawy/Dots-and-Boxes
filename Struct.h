@@ -1,6 +1,6 @@
 typedef struct{
-    char *name;
+    char name[256];
     int moves;
     int score;
+    int lenname;
 }gamer;
-

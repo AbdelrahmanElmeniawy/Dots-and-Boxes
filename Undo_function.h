@@ -10,11 +10,17 @@ void undo_function(int mode,int *noundo, int *moves1, int *moves2, int *score1, 
         *player = movesplayed[noofmoves-1][2];
         if(movesplayed[noofmoves-1][3] != 0){
             game[movesplayed[noofmoves-1][3]][movesplayed[noofmoves-1][4]] = ' ';
-            *player == 1? *score1-- : *score2--;
+            if(*player == 1)
+                *score1 -= 1;
+            else
+                *score2 -= 1;
         }
         if(movesplayed[noofmoves-1][5] != 0){
             game[movesplayed[noofmoves-1][5]][movesplayed[noofmoves-1][6]] = ' ';
-            *player == 1? *score1-- : *score2--;
+            if(*player == 1)
+                *score1 -= 1;
+            else
+                *score2 -= 1;
         }
         *noundo += 1;
         noofmoves -= 1;
