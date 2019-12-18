@@ -50,7 +50,6 @@ int main()
             }else strcpy(&two.name, "computer");
             two.lenname = strlen(&two.name);
             system("cls");
-            printf("%d", one.lenname);
             int size = 2*n + 2;
             char game[size][size];
             for(int j=0; j < size; j++){
@@ -111,9 +110,11 @@ int main()
 
                 fread(&one.lenname, sizeof(int), 1, load);
                 fread(one.name, sizeof(char), one.lenname, load);
+                one.name[one.lenname] = '\0';
                 if(mode == 2)
                     fread(&two.lenname, sizeof(int), 1, load);
                     fread(two.name, sizeof(char), two.lenname, load);
+                    two.name[two.lenname] = '\0';
                 fclose(load);
                 if (mode == 1)
                 {

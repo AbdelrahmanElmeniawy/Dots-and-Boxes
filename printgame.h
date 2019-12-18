@@ -1,4 +1,4 @@
-void printgame(int sizea, char game[sizea][sizea], int score1, int score2, int totallines, int noofmoves, int noOfMoves1, int noOfMoves2, int time0)
+void printgame(int sizea, char game[sizea][sizea], int score1, int score2, int totallines, int noofmoves, int noOfMoves1, int noOfMoves2, int time0, char name1[], char name2[])
 {
     setTextColor(stdout,TC_WHITE);
     time_t currenttime;
@@ -32,6 +32,8 @@ void printgame(int sizea, char game[sizea][sizea], int score1, int score2, int t
             else printf("%c", game[i][j]);
         printf("\n");
     }printf("\n");
+    printf("player one name: %s\t\t", name1);
+    printf("player two name: %s\n", name2);
     setTextColor(stdout,TC_BLUE);
     printf("    Number of moves for player 1: %d",noOfMoves1);
     setTextColor(stdout,TC_RED);

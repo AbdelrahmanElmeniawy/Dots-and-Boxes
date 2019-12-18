@@ -29,7 +29,7 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
         }
 
     int row,col,gameon=1,availablemove=1,check = 0, AI, noundo = 0;
-    printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0);
+    printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
     while(gameon){
         if(player==1){
             setTextColor(stdout,TC_BLUE);
@@ -94,7 +94,7 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
                     fwrite(name2, sizeof(char), lenname2, save);
                 fclose(save);
                 printf("saved to %d.txt\n", savenum);
-                printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0);
+                printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
             } else printf("is not existing file\n");
             break;
         }
@@ -109,7 +109,7 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
                         noundo--;
                     }else{
                         printf("\nno moves to redo\n\n");
-                        printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0);
+                        printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
                         continue;
                     }
                 }else
@@ -150,7 +150,7 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
             }
         else printf("\nnot available move\n\n");
 
-        printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0);
+        printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
 
         //endgame
         if(noofmoves == totallines){
@@ -158,12 +158,12 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
             printf("GAME ENDED\n");
             if(score1 > score2){
                 setTextColor(stdout,TC_BLUE);
-                printf("Player 1 win");
+                printf("%s win", name1);
                 setTextColor(stdout,TC_LIGHTGRAY);
             }
             else if(score2 > score1){
                 setTextColor(stdout,TC_RED);
-                printf("Player 2 win");
+                printf("%s win", name2);
                 setTextColor(stdout,TC_LIGHTGRAY);
             }
             else{
