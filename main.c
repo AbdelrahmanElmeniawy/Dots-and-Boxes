@@ -26,7 +26,7 @@ int main()
         return(-1);
     }
     int counter = 0;
-    while(!feof(userread) && usersarray[counter-1].namelen != 0)
+    while(!feof(userread))
     {
         fread(&usersarray[counter].namelen, sizeof(int), 1, userread);
         fread(&usersarray[counter].name,sizeof(char), usersarray[counter].namelen, userread);
