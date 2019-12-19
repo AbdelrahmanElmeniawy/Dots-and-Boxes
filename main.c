@@ -17,22 +17,44 @@ int main()
     setTextColor(stdout,TC_CYAN);
     printf("\t new game(enter:1):\n\n\t load(enter:2):\n\n\t top ten(enter:3):\n\n\t exit(enter:4);\n\n\t enter the choose:");
     setTextColor(stdout,TC_LIGHTGRAY);
-    scanf("%d",&menu);
+    menu = scanint();
     system("cls");
+    users usersarray[MAXSIZE] = {0};
+    FILE *userread = fopen("s.txt", "r");
+    if(userread == NULL) {
+        printf("users file does not exist\n");
+        return(-1);
+    }
+    int counter = 0;
+    while(!feof(userread) && usersarray[counter-1].namelen != 0)
+    {
+        fread(&usersarray[counter].namelen, sizeof(int), 1, userread);
+        fread(&usersarray[counter].name,sizeof(char), usersarray[counter].namelen, userread);
+        usersarray[counter].name[usersarray[counter].namelen] = '\0';
+        fread(&usersarray[counter].score, sizeof(int), 1, userread);
+        counter++;
+    }
+    fclose(userread);
+    int n, mode;
+    gamer one, two;
+    int player;
+
     if(menu == 1){
-            int n, mode;
+
             setTextColor(stdout,TC_CYAN);
             printf("\n\nenter the size of the boxes:");
-            scanf("%d",&n);
+            n = scanint();
+            if(n == -1) return -1;
             setTextColor(stdout,TC_LIGHTGRAY);
             setTextColor(stdout,TC_BLUE);
             printf("\none player (enter:1):\n\n");
             setTextColor(stdout,TC_RED);
             printf("two player (enter:2):\n");
             setTextColor(stdout,TC_LIGHTGRAY);
-            scanf("%d",&mode);
+            mode= scanint();
+            if(mode == -1) return -1;
             system("cls");
-            gamer one, two;
+
             setTextColor(stdout,TC_BLUE);
             printf(" enter your name: ");
             fflush(stdin);
@@ -57,7 +79,7 @@ int main()
                 game[j][0] = j;
                 if(j%2 != 0) {
                     for(int i=1; i < size; i=i+2){
-                        game[i][j] = 254;
+                        game[i][j] = 254; // dot
                         game[i+1][j] =' ';
                     }
                 }
@@ -75,24 +97,28 @@ int main()
                     movesplayed[i][j]=0;
             }
             one.score=0; two.score=0; one.moves= 0; two.moves = 0;
-            int player=1;
-            game_function(n, mode, size, game, totallines, movesplayed, noofmoves, player, one.score, two.score, one.moves, two.moves,one.lenname, one.name, two.lenname, two.name);
+            player=1;
+            player = game_function(n, mode, size, game, totallines, movesplayed, noofmoves, player, &one.score, &two.score, one.moves, two.moves,one.lenname, one.name, two.lenname, two.name);
         }
-        else if(menu == 2){
+        if(menu == 2){
             int savenum;
             printf("Enter the file number( 1 or 2 or 3):");
-            scanf("%d", &savenum);
+            savenum= scanint();
+            if(savenum == -1) return -1;
             if (savenum == 1 || savenum == 2 || savenum == 3){
                 char fname[5];
                 sprintf(fname, "%d.txt", savenum);
                 FILE *load = fopen(fname, "r");
-
+                if(load == NULL) {
+                    printf("file does not exist\n");
+                    return -1;
+                }
                 int n, mode;
 
                 fread(&n, sizeof(int), 1, load);
                 fread(&mode, sizeof(int), 1, load);
 
-                int size = 2 * n +2, totallines = 2*n*(n+1), noofmoves, player;
+                int size = 2 * n +2, totallines = 2*n*(n+1), noofmoves;
                 fread(&noofmoves, sizeof(int), 1, load);
 
                 gamer one, two;
@@ -111,18 +137,73 @@ int main()
                 fread(&one.lenname, sizeof(int), 1, load);
                 fread(one.name, sizeof(char), one.lenname, load);
                 one.name[one.lenname] = '\0';
-                if(mode == 2)
+                if(mode == 2){
                     fread(&two.lenname, sizeof(int), 1, load);
                     fread(two.name, sizeof(char), two.lenname, load);
                     two.name[two.lenname] = '\0';
+                }
                 fclose(load);
                 if (mode == 1)
                 {
                     strcpy(&two.name, "computer");
                 }
                 two.lenname = strlen(&two.name);
-                game_function(n, mode, size, game, totallines, movesplayed, noofmoves, player, one.score, two.score, one.moves, two.moves,one.lenname, one.name, two.lenname, two.name);
+                player = game_function(n, mode, size, game, totallines, movesplayed, noofmoves, player, &one.score, &two.score, one.moves, two.moves,one.lenname, one.name, two.lenname, two.name);
             } else printf("is not existing file\n");
+        }
+        if(menu == 1 || menu == 2)
+        {
+            if (player == 1){
+                int i = 0, m = 0;
+                while(usersarray[i].namelen != 0)
+                    if(strcmp(one.name,usersarray[i].name) == 0){
+                        m = 1;
+                        break;
+                    }else{
+                        i++;
+                        if(i == MAXSIZE)
+                        {
+                            for(int j = 0; j < MAXSIZE; j++)
+                            {
+                                usersarray[j].namelen = 0;
+                            }
+                            i = 0;
+                        }
+                    }
+                if (m){
+                    usersarray[i].score = one.score;
+                }else{
+                    usersarray[i].namelen = one.lenname;
+                    strcpy(&usersarray[i].name,&one.name);
+                    usersarray[i].score = one.score;
+                }
+            }else if (player == 2 && mode == 2){
+                int i = 0, m = 0;
+                while(usersarray[i].namelen != 0){
+                    if(strcmp(two.name,usersarray[i].name) == 0){
+                        m = 1;
+                        break;
+                    }else{
+                        i++;
+                    }
+                }
+                if (m){
+                    usersarray[i].score = two.score;
+                }else{
+                    usersarray[i].namelen = two.lenname;
+                    strcpy(&usersarray[i].name,&two.name);
+                    usersarray[i].score = two.score;
+                }
+            }
+            FILE *userwrite = fopen("s.txt", "w");
+            counter = 0;
+            while(counter < MAXSIZE && usersarray[counter].namelen != 0){
+                fwrite(&usersarray[counter].namelen, sizeof(int), 1, userwrite);
+                fwrite(&usersarray[counter].name,sizeof(char), usersarray[counter].namelen, userwrite);
+                fwrite(&usersarray[counter].score, sizeof(int), 1, userwrite);
+                counter++;
+            }
+            fclose(userwrite);
         }
         else
             printf("Wrong choose\n");

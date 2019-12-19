@@ -2,8 +2,9 @@
 #include "checkbox.h"
 #include "AI_function.h"
 #include "Undo_function.h"
+#include "scanint.h"
 
-void game_function(int n, int mode, int size, char game[size][size],int totallines, int movesplayed[totallines][7], int noofmoves, int player,int score1,int score2, int moves1, int moves2, int lenname1, char name1[lenname1], int lenname2, char name2[lenname2])
+int game_function(int n, int mode, int size, char game[size][size],int totallines, int movesplayed[totallines][7], int noofmoves, int player,int *score1,int *score2, int moves1, int moves2, int lenname1, char name1[lenname1], int lenname2, char name2[lenname2])
 {
     time_t savedtime;
     int t0 = time(&savedtime);
@@ -29,7 +30,7 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
         }
 
     int row,col,gameon=1,availablemove=1,check = 0, AI, noundo = 0;
-    printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
+    printgame(size,game, *score1, *score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
     while(gameon){
         if(player==1){
             setTextColor(stdout,TC_BLUE);
@@ -50,9 +51,9 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
                 setTextColor(stdout,TC_RED);
             }
             printf("\tENTER ROW: ");
-            scanf("%x",&row);
+            row = scanint();
             printf(("\tENTER COL: "));
-            scanf("%x",&col);
+            col = scanint();
         }
         setTextColor(stdout,TC_LIGHTGRAY);
         system("cls");
@@ -64,7 +65,7 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
                 printf("\nno moves to undo\n\n");
             else if(movesplayed[noofmoves-1][0] != 0)
             {
-                undo_function(mode,&noundo, &moves1, &moves2, &score1, &score2, &row,&col,size,game,compgame,&player,totallines, &noofmoves, movesplayed);
+                undo_function(mode,&noundo, &moves1, &moves2, score1, score2, &row,&col,size,game,compgame,&player,totallines, &noofmoves, movesplayed);
             }else
                 printf("\nno moves to undo\n\n");
         }
@@ -72,7 +73,8 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
         {
             int savenum;
             printf("Enter the file number( 1 or 2 or 3):");
-            scanf("%d", &savenum);
+            savenum = scanint();
+            if(savenum == -1) break;
             if (savenum == 1 || savenum == 2 || savenum == 3){
                 char fname[5];
                 sprintf(fname, "%d.txt", savenum);
@@ -82,8 +84,8 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
                 fwrite(&noofmoves, sizeof(int), 1, save);
                 fwrite(&moves1, sizeof(int), 1, save);
                 fwrite(&moves2, sizeof(int), 1, save);
-                fwrite(&score1, sizeof(int), 1, save);
-                fwrite(&score2, sizeof(int), 1, save);
+                fwrite(score1, sizeof(int), 1, save);
+                fwrite(score2, sizeof(int), 1, save);
                 fwrite(&player, sizeof(int), 1, save);
                 fwrite(movesplayed, sizeof(int), totallines * 7, save);
                 fwrite(game, sizeof(char), size * size, save);
@@ -94,7 +96,7 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
                     fwrite(name2, sizeof(char), lenname2, save);
                 fclose(save);
                 printf("saved to %d.txt\n", savenum);
-                printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
+                printgame(size,game, *score1, *score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
             } else printf("is not existing file\n");
             break;
         }
@@ -109,7 +111,7 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
                         noundo--;
                     }else{
                         printf("\nno moves to redo\n\n");
-                        printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
+                        printgame(size,game, *score1, *score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
                         continue;
                     }
                 }else
@@ -137,8 +139,8 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
                     noofmoves++;
                     check = checkbox(row,col,size,game,compgame,player,totallines, noofmoves, movesplayed, AI);
                     if(check){
-                        if(player == 1) score1+=check;
-                        else score2+=check;
+                        if(player == 1) *score1 += check;
+                        else *score2 += check;
                         check = 0;
                     }
                     else{
@@ -150,25 +152,29 @@ void game_function(int n, int mode, int size, char game[size][size],int totallin
             }
         else printf("\nnot available move\n\n");
 
-        printgame(size,game, score1, score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
+        printgame(size,game, *score1, *score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
 
         //endgame
         if(noofmoves == totallines){
             gameon = 0;
             printf("GAME ENDED\n");
-            if(score1 > score2){
+            if(*score1 > *score2){
                 setTextColor(stdout,TC_BLUE);
                 printf("%s win", name1);
                 setTextColor(stdout,TC_LIGHTGRAY);
+                player = 1;
             }
-            else if(score2 > score1){
+            else if(*score2 > *score1){
                 setTextColor(stdout,TC_RED);
                 printf("%s win", name2);
                 setTextColor(stdout,TC_LIGHTGRAY);
+                player = 2;
             }
             else{
                 printf("Tie");
+                player = 0;
             }
+            return player;
         }
     }
 }
