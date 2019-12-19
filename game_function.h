@@ -42,7 +42,7 @@ int game_function(int n, int mode, int size, char game[size][size],int totalline
         }
 
     int row,col,gameon=1,availablemove=1,check = 0, AI, noundo = 0;
-    printgame(size,game, *score1, *score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
+    printgame(size,game, *score1, *score2, totallines, noofmoves, moves1, moves2, t0, name1, name2, movesplayed);
     while(gameon){
         if(player==1){
             setTextColor(stdout,TC_BLUE);
@@ -108,7 +108,7 @@ int game_function(int n, int mode, int size, char game[size][size],int totalline
                     fwrite(name2, sizeof(char), lenname2, save);
                 fclose(save);
                 printf("saved to %d.txt\n", savenum);
-                printgame(size,game, *score1, *score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
+                printgame(size,game, *score1, *score2, totallines, noofmoves, moves1, moves2, t0, name1, name2, movesplayed);
             } else printf("is not existing file\n");
             break;
         }
@@ -123,7 +123,7 @@ int game_function(int n, int mode, int size, char game[size][size],int totalline
                         noundo--;
                     }else{
                         printf("\nno moves to redo\n\n");
-                        printgame(size,game, *score1, *score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
+                        printgame(size,game, *score1, *score2, totallines, noofmoves, moves1, moves2, t0, name1, name2, movesplayed);
                         continue;
                     }
                 }else
@@ -164,7 +164,7 @@ int game_function(int n, int mode, int size, char game[size][size],int totalline
             }
         else printf("\nnot available move\n\n");
 
-        printgame(size,game, *score1, *score2, totallines, noofmoves, moves1, moves2, t0, name1, name2);
+        printgame(size,game, *score1, *score2, totallines, noofmoves, moves1, moves2, t0, name1, name2, movesplayed);
 
         //endgame
         if(noofmoves == totallines){
