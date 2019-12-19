@@ -4,6 +4,18 @@
 #include "Undo_function.h"
 #include "scanint.h"
 
+void sortusers ( users list[MAXSIZE]) {
+int i, j; users temp;
+for(i = 0; i < MAXSIZE-1; i++){
+    for(j = 0; j < MAXSIZE-1-i; j++)
+        if(list[j].score < list[j+1].score){
+            temp = list[j];
+            list[j] = list[j+1];
+            list[j+1] = temp;
+        }
+    }
+}
+
 int game_function(int n, int mode, int size, char game[size][size],int totallines, int movesplayed[totallines][7], int noofmoves, int player,int *score1,int *score2, int moves1, int moves2, int lenname1, char name1[lenname1], int lenname2, char name2[lenname2])
 {
     time_t savedtime;

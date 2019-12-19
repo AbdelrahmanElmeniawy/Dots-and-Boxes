@@ -171,7 +171,9 @@ int main()
                         }
                     }
                 if (m){
-                    usersarray[i].score = one.score;
+                    if(usersarray[i].score < one.score){
+                        usersarray[i].score = one.score;
+                    }
                 }else{
                     usersarray[i].namelen = one.lenname;
                     strcpy(&usersarray[i].name,&one.name);
@@ -205,7 +207,16 @@ int main()
             }
             fclose(userwrite);
         }
+        else if(menu == 3){
+            sortusers(usersarray);int i,j;
+            for(i=0;i<10;i++){
+                printf("%d.",i+1);
+                for(j=0;usersarray[i].name[j]!='\0';j++)
+                    printf("%c",usersarray[i].name[j]);
+                printf("\n");
+            }
+        }
         else
-            printf("Wrong choose\n");
+            printf("Wrong choose\n\n");
     return 0;
 }
