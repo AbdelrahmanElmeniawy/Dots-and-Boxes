@@ -7,6 +7,7 @@ void printgame(int sizea, char game[sizea][sizea], int score1, int score2, int t
     int i, j;
     printf("  ");
     for(i=1;i<sizea;i++){
+        //print vertical numbers
         printf("%x",game[0][i]);
         if(i < 16)
             printf(" ");
@@ -15,6 +16,7 @@ void printgame(int sizea, char game[sizea][sizea], int score1, int score2, int t
     for(i=1;i<sizea;i++){
         if(i < 16)
             printf(" ");
+        //print horizontal numbers
         printf("%x",game[i][0]);
         for(j=1;j<sizea;j++)
             if(game[i][j] == 'A'){
@@ -27,6 +29,7 @@ void printgame(int sizea, char game[sizea][sizea], int score1, int score2, int t
                 printf("   ");
                 SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED| FOREGROUND_INTENSITY );
             }
+            //changing colors for lines
             else if (j%2 == 0){
                 for(int color = 0; color < noofmoves; color++)
                 {
@@ -57,9 +60,9 @@ void printgame(int sizea, char game[sizea][sizea], int score1, int score2, int t
         printf("\n");
     }printf("\n");
     setTextColor(stdout,TC_BLUE);
-    printf("\tplayer one name: %s\t\t\t\t\t\t", name1);
+    printf("\tplayer one name: %s\t\t\t\t", name1);
     setTextColor(stdout,TC_RED);
-    printf("player two name: %s\n", name2);
+    printf("player two name: %s\n\n", name2);
     setTextColor(stdout,TC_BLUE);
     printf("    Number of moves for player 1: %d",noOfMoves1);
     setTextColor(stdout,TC_RED);

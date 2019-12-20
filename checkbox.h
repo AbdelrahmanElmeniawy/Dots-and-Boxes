@@ -1,8 +1,10 @@
+//function to check if the move played closed a box           AI helps us to make sure in AI_function.h the game array or movesplayed array will save any thing
 int checkbox(int row,int col,int size,char game[size][size],char compgame[size][size],int player,int totallines, int noofmoves, int movesplayed[totallines][7], int ai)
 {
     int check =0;
-    if(row%2==0){
-        if(col+2<size){
+
+    if(row%2==0){ //check vertical or horizontal            vertical
+        if(col+2<size){ // check the right
         if(game[row+1][col+1]==compgame[row+1][col+1]){
             if(game[row][col+2]==compgame[row][col+2]){
                 if(game[row-1][col+1]==compgame[row-1][col+1]){
@@ -21,7 +23,7 @@ int checkbox(int row,int col,int size,char game[size][size],char compgame[size][
             }
         }
         }
-        if(col-2>0){
+        if(col-2>0){ // check the left
         if(game[row+1][col-1]==compgame[row+1][col-1]){
             if(game[row][col-2]==compgame[row][col-2]){
                 if(game[row-1][col-1]==compgame[row-1][col-1]){
@@ -40,8 +42,8 @@ int checkbox(int row,int col,int size,char game[size][size],char compgame[size][
         }
         }
     }
-    else if(col%2==0){
-        if(row+2<size){
+    else if(col%2==0){ // horizontal
+        if(row+2<size){ //down
         if(game[row+1][col+1]==compgame[row+1][col+1]){
             if(game[row+2][col]==compgame[row+2][col]){
                 if(game[row+1][col-1]==compgame[row+1][col-1]){
@@ -59,7 +61,7 @@ int checkbox(int row,int col,int size,char game[size][size],char compgame[size][
             }
         }
         }
-        if(row-2>0){
+        if(row-2>0){ //up
         if(game[row-1][col+1]==compgame[row-1][col+1]){
             if(game[row-2][col]==compgame[row-2][col]){
                 if(game[row-1][col-1]==compgame[row-1][col-1]){
