@@ -123,7 +123,7 @@ int game_function(int n, int mode, int size, char game[size][size],int totalline
                 } else {    //if user choose to save in a wrong number return to game
                 printf("is not existing file\n");}
             }
-            return 0;
+            continue;
         }
 
         else if((((col%2 == 0 && row%2 != 0) || (col%2 != 0 && row%2 == 0)) && col > 0 && col < size && row > 0 && row < size) || (row == 1 && col == 1)){

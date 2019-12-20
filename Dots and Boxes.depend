@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1576825282 source:c:\users\ecc\desktop\dots and boxes\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<colors.h>
+	<windows.h>
+	<ctype.h>
+	<string.h>
+	"Struct.h"
+	"game_function.h"
+
+1576782090 c:\users\ecc\desktop\dots and boxes\struct.h
+
+1576824249 c:\users\ecc\desktop\dots and boxes\game_function.h
+	"printgame.h"
+	"checkbox.h"
+	"AI_function.h"
+	"Undo_function.h"
+	"scanint.h"
+
+1576823419 c:\users\ecc\desktop\dots and boxes\printgame.h
+
+1576822681 c:\users\ecc\desktop\dots and boxes\checkbox.h
+
+1576821845 c:\users\ecc\desktop\dots and boxes\ai_function.h
+
+1576822334 c:\users\ecc\desktop\dots and boxes\undo_function.h
+
+1576822894 c:\users\ecc\desktop\dots and boxes\scanint.h
+

@@ -17,7 +17,7 @@ int main()
     setTextColor(stdout,TC_GREEN);
     printf("\n \t \t\t\t\twelcome to our project:\n\n \t \t\t\t\tDOTS and BOXES:\n\n");
     setTextColor(stdout,TC_CYAN);
-    printf("\t new game(enter:1):\n\n\t load(enter:2):\n\n\t top ten(enter:3):\n\n\t exit(enter:4);\n\n\t enter the choose:");
+    printf("\t new game(enter:1):\n\n\t load game(enter:2):\n\n\t top ten(enter:3):\n\n\t exit(enter:4);\n\n\t enter the choose:");
     setTextColor(stdout,TC_LIGHTGRAY);
     menu = scanint();
     system("cls");
@@ -58,7 +58,7 @@ int main()
     if(menu == 1){
             //new game
             setTextColor(stdout,TC_CYAN);
-            printf("\n\nenter the size of the boxes:(from 1 to d):");
+            printf("\n\nenter the number of the boxes per row:(Hexadecimal from 1 to d):");
             while(1){
             n = scanint();
             if(n>0&&n<14)//number of box must be bigger than 0 and smaller than 13 because the size of the terminal
@@ -155,7 +155,11 @@ int main()
                         char runkey;
                         scanf("%c", &runkey);
                         continue;
+                    }else{
+                        fclose(load);
+                        load = fopen(fname, "r");
                     }
+
                     fread(&n, sizeof(int), 1, load);
                     fread(&mode, sizeof(int), 1, load);
 
