@@ -58,13 +58,28 @@ int main()
     if(menu == 1){
             //new game
             setTextColor(stdout,TC_CYAN);
-            printf("\n\nenter the number of the boxes per row:(Hexadecimal from 1 to d):");
+            printf("\n\nenter the degree of difficulty:\nEasy (enter 1)\nMedium (enter 2)\nHard (enter 3)\nExtreme (enter 4)\n");
             while(1){
             n = scanint();
-            if(n>0&&n<14)//number of box must be bigger than 0 and smaller than 13 because the size of the terminal
+            if(n>0&&n<5)//number of box must be bigger than 0 and smaller than 13 because the size of the terminal
                 break;
             else
-                printf("error (can't be number of boxes)\n");
+                printf("error (invalid number)\n");
+            }
+            switch (n)
+            {
+                case 1:
+                    n = 2;
+                    break;
+                case 2:
+                    n = 3;
+                    break;
+                case 3:
+                    n = 5;
+                    break;
+                case 4:
+                    n = 8;
+                    break;
             }
             setTextColor(stdout,TC_LIGHTGRAY);
             setTextColor(stdout,TC_BLUE);
