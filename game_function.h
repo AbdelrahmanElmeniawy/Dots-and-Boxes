@@ -126,8 +126,8 @@ int game_function(int n, int mode, int size, char game[size][size],int totalline
             continue;
         }
 
-        else if((((col%2 == 0 && row%2 != 0) || (col%2 != 0 && row%2 == 0)) && col > 0 && col < size && row > 0 && row < size) || (row == 1 && col == 1)){
-
+        else if(col > 0 && col < size && row > 0 && row < size){
+            if(compgame[row][col] == h || compgame[row][col] == v || (row == 1 && col == 1)){
                 //redo
                 if (row == 1 && col == 1){
                     if (noundo != 0){
@@ -177,8 +177,8 @@ int game_function(int n, int mode, int size, char game[size][size],int totalline
                     }
                 }
                 else availablemove = 1;
-            }
-        else printf("\nnot available move\n\n");
+            }else printf("\nnot available move\n\n");
+        }else printf("\nnot available move\n\n");
 
         printgame(size,game, *score1, *score2, totallines, noofmoves, moves1, moves2, t0, name1, name2, movesplayed);
 
