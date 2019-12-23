@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1576825282 source:c:\users\ecc\desktop\dots and boxes\main.c
+1576878226 source:c:\users\ecc\desktop\dots and boxes\main.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -12,14 +12,14 @@
 
 1576782090 c:\users\ecc\desktop\dots and boxes\struct.h
 
-1576824249 c:\users\ecc\desktop\dots and boxes\game_function.h
+1576851515 c:\users\ecc\desktop\dots and boxes\game_function.h
 	"printgame.h"
 	"checkbox.h"
 	"AI_function.h"
 	"Undo_function.h"
 	"scanint.h"
 
-1576823419 c:\users\ecc\desktop\dots and boxes\printgame.h
+1576825511 c:\users\ecc\desktop\dots and boxes\printgame.h
 
 1576822681 c:\users\ecc\desktop\dots and boxes\checkbox.h
 

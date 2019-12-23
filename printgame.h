@@ -5,51 +5,66 @@ void printgame(int sizea, char game[sizea][sizea], int score1, int score2, int t
     int current = time(&currenttime);
     int seconds = (current - time0) % 60, minutes = (current - time0) / 60;
     int i, j;
-    printf("  ");
-    for(i=1;i<sizea;i++){
+    printf("\n\n\t\t\t\t ");
+    for(i=1; i<sizea; i++)
+    {
         //print vertical numbers
         printf("%x",game[0][i]);
         if(i < 16)
             printf(" ");
     }
     printf("\n");
-    for(i=1;i<sizea;i++){
+    for(i=1; i<sizea; i++)
+    {
         if(i < 16)
             printf(" ");
         //print horizontal numbers
-        printf("%x",game[i][0]);
-        for(j=1;j<sizea;j++)
-            if(game[i][j] == 'A'){
+        printf("\t\t\t\t%x",game[i][0]);
+        for(j=1; j<sizea; j++)
+            if(game[i][j] == 'A')
+            {
                 SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),BACKGROUND_BLUE);
                 printf("   ");
                 SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED| FOREGROUND_INTENSITY);
             }
-            else if(game[i][j] == 'B'){
+            else if(game[i][j] == 'B')
+            {
                 SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),BACKGROUND_RED);
                 printf("   ");
                 SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED| FOREGROUND_INTENSITY );
             }
-            //changing colors for lines
-            else if (j%2 == 0){
+        //changing colors for lines
+            else if (j%2 == 0)
+            {
                 for(int color = 0; color < noofmoves; color++)
                 {
-                    if(movesplayed[color][0] == i && movesplayed[color][1] == j){
-                        if(movesplayed[color][2] == 1){
+                    if(movesplayed[color][0] == i && movesplayed[color][1] == j)
+                    {
+                        if(movesplayed[color][2] == 1)
+                        {
                             setTextColor(stdout,TC_BLUE);
-                        }else{
+                        }
+                        else
+                        {
                             setTextColor(stdout,TC_RED);
                         }
                     }
                 }
                 printf("%c%c%c",game[i][j],game[i][j],game[i][j]);
                 setTextColor(stdout,TC_WHITE);
-            }else{
+            }
+            else
+            {
                 for(int color = 0; color < noofmoves; color++)
                 {
-                    if(movesplayed[color][0] == i && movesplayed[color][1] == j){
-                        if(movesplayed[color][2] == 1){
+                    if(movesplayed[color][0] == i && movesplayed[color][1] == j)
+                    {
+                        if(movesplayed[color][2] == 1)
+                        {
                             setTextColor(stdout,TC_BLUE);
-                        }else{
+                        }
+                        else
+                        {
                             setTextColor(stdout,TC_RED);
                         }
                     }
@@ -58,7 +73,8 @@ void printgame(int sizea, char game[sizea][sizea], int score1, int score2, int t
                 setTextColor(stdout,TC_WHITE);
             }
         printf("\n");
-    }printf("\n");
+    }
+    printf("\n");
     setTextColor(stdout,TC_BLUE);
     printf("\tplayer one name: %s\t\t\t\t", name1);
     setTextColor(stdout,TC_RED);
